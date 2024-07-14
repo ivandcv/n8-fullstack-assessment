@@ -9,6 +9,8 @@ export class Department {
   @Column()
   name: string;
 
-  @OneToMany(() => Employee, (employee) => employee.department)
+  @OneToMany(() => Employee, (employee) => employee.department, {
+    nullable: true,
+  })
   employees: Employee[];
 }
