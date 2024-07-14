@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateDepartmentDto } from './dto/create-department.dto';
 import { UpdateDepartmentDto } from './dto/update-department.dto';
@@ -28,7 +28,7 @@ export class DepartmentsService {
     });
 
     if (!department) {
-      throw new Error(`Department with ID ${id} not found`);
+      throw new NotFoundException(`Department with ID ${id} not found`);
     }
 
     return department;
