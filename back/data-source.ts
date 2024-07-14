@@ -1,5 +1,6 @@
 import { DataSource } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { Employee } from './src/employees/entities/employee.entity';
 import { Department } from './src/departments/entities/department.entity';
 
@@ -17,4 +18,5 @@ export const AppDataSource = new DataSource({
   ),
   entities: [Employee, Department],
   migrations: [__dirname + '/src/migration/*.ts'],
+  namingStrategy: new SnakeNamingStrategy(),
 });
