@@ -17,7 +17,6 @@ services:
   back:
     container_name: back
     restart: always
-    command: npm run start
     build: back/
     ports:
       - 3000:3000
@@ -35,7 +34,6 @@ services:
       - db
   back-dev:
     container_name: back-dev
-    restart: always
     command: npm run start:dev
     build: back/
     ports:
@@ -48,7 +46,7 @@ services:
       DATABASE_NAME: n8_fullstack_assessment
     volumes:
       - ./back:/app
-      - node_modules:/app/node_modules
+      - /app/node_modules
     depends_on:
       - db
     profiles:
@@ -70,4 +68,3 @@ services:
 
 volumes:
   pg-data:
-  node_modules:
