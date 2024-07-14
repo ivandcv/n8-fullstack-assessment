@@ -13,22 +13,33 @@ export class DepartmentsService {
   ) {}
 
   create(createDepartmentDto: CreateDepartmentDto) {
-    return 'This action adds a new department';
+    const department = this.departmentsRepository.create(createDepartmentDto);
+    return this.departmentsRepository.save(department);
   }
 
   findAll() {
     return this.departmentsRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} department`;
+  async findOne(id: number) {
+    const department = await this.departmentsRepository.findOne({
+      where: { id },
+      relations: ['employees'],
+    });
+
+    if (!department) {
+      throw new Error(`Department with ID ${id} not found`);
+    }
+
+    return department;
   }
 
-  update(id: number, updateDepartmentDto: UpdateDepartmentDto) {
-    return `This action updates a #${id} department`;
+  async update(id: number, updateDepartmentDto: UpdateDepartmentDto) {
+    await this.departmentsRepository.update(id, updateDepartmentDto);
+    return this.findOne(id);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} department`;
+    return this.departmentsRepository.delete(id);
   }
 }

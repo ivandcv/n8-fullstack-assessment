@@ -1,4 +1,6 @@
-import { PartialType } from '@nestjs/mapped-types';
+import { PickType } from '@nestjs/swagger';
 import { CreateDepartmentDto } from './create-department.dto';
 
-export class UpdateDepartmentDto extends PartialType(CreateDepartmentDto) {}
+export class UpdateDepartmentDto extends PickType(CreateDepartmentDto, [
+  'name',
+] as const) {}
