@@ -17,6 +17,9 @@ describe('DepartmentsService', () => {
       name: 'hardware development',
     },
   ];
+  const departmentDto = {
+    name: 'game development',
+  };
 
   const mockRepository = {
     find: jest.fn().mockResolvedValue(mockDepartments),
@@ -63,11 +66,10 @@ describe('DepartmentsService', () => {
 
   describe('findOne', () => {
     it('should find an existing department', async () => {
-      const expectedDepartment = { id: 1, name: 'game development' };
-      mockRepository.findOne.mockResolvedValue(expectedDepartment);
+      mockRepository.findOne.mockResolvedValue(mockDepartments[0]);
 
       const result = await service.findOne(1);
-      expect(result).toEqual(expectedDepartment);
+      expect(result).toEqual(mockDepartments[0]);
     });
 
     it('should throw NotFoundException if department does not exist', async () => {
@@ -79,14 +81,11 @@ describe('DepartmentsService', () => {
 
   describe('create', () => {
     it('should create a new department record and return it', async () => {
-      const createDepartmentDto = {
-        name: 'game development',
-      };
-      expect(await service.create(createDepartmentDto)).toEqual({
+      expect(await service.create(departmentDto)).toEqual({
         id: 1,
-        ...createDepartmentDto,
+        ...departmentDto,
       });
-      expect(mockRepository.create).toHaveBeenCalledWith(createDepartmentDto);
+      expect(mockRepository.create).toHaveBeenCalledWith(departmentDto);
       expect(mockRepository.save).toHaveBeenCalled();
     });
   });
@@ -95,13 +94,14 @@ describe('DepartmentsService', () => {
     it('should update an department record and return it', async () => {
       const updateDepartmentDto = { name: 'hardware development' };
       const id = 1;
-      const existingDepartment = { id: 1, name: 'game development' };
-      mockRepository.findOne.mockResolvedValue(existingDepartment);
+      mockRepository.findOne.mockResolvedValue(departmentDto);
       await service.update(id, updateDepartmentDto);
       expect(mockRepository.update).toHaveBeenCalledWith(
         id,
         updateDepartmentDto,
       );
+      const result = await service.findOne(id);
+      expect(result).toEqual({ ...updateDepartmentDto, ...departmentDto });
     });
   });
 
