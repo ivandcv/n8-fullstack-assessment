@@ -21,7 +21,7 @@ describe('EmployeesService', () => {
       },
     },
     {
-      id: 1,
+      id: 2,
       firstName: 'Sack',
       lastName: 'Boy',
       hireDate: '2011-01-18T00:00:00.000Z',
@@ -33,6 +33,14 @@ describe('EmployeesService', () => {
       },
     },
   ];
+  const employeeDto = {
+    firstName: 'Sack',
+    lastName: 'Boy',
+    hireDate: new Date('2011-01-18'),
+    phone: '22222',
+    address: 'Little Big Planet',
+    department: '2',
+  };
 
   const mockRepository = {
     find: jest.fn().mockResolvedValue(mockEmployees),
@@ -79,11 +87,10 @@ describe('EmployeesService', () => {
 
   describe('findOne', () => {
     it('should find an existing employee', async () => {
-      const expectedEmployee = { id: 1, name: 'John Doe', department: {} };
-      mockRepository.findOne.mockResolvedValue(expectedEmployee);
+      mockRepository.findOne.mockResolvedValue(mockEmployees[0]);
 
       const result = await service.findOne(1);
-      expect(result).toEqual(expectedEmployee);
+      expect(result).toEqual(mockEmployees[0]);
     });
 
     it('should throw NotFoundException if employee does not exist', async () => {
@@ -95,19 +102,11 @@ describe('EmployeesService', () => {
 
   describe('create', () => {
     it('should create a new employee record and return it', async () => {
-      const createEmployeeDto = {
-        firstName: 'Sack',
-        lastName: 'Boy',
-        hireDate: new Date('2011-01-18'),
-        phone: '22222',
-        address: 'Little Big Planet',
-        department: '2',
-      };
-      expect(await service.create(createEmployeeDto)).toEqual({
+      expect(await service.create(employeeDto)).toEqual({
         id: 1,
-        ...createEmployeeDto,
+        ...employeeDto,
       });
-      expect(mockRepository.create).toHaveBeenCalledWith(createEmployeeDto);
+      expect(mockRepository.create).toHaveBeenCalledWith(employeeDto);
       expect(mockRepository.save).toHaveBeenCalled();
     });
   });
@@ -116,10 +115,11 @@ describe('EmployeesService', () => {
     it('should update an employee record and return it', async () => {
       const updateEmployeeDto = { firstName: 'Jane Doe' };
       const id = 1;
-      const existingEmployee = { id: 1, firstName: 'John Doe' };
-      mockRepository.findOne.mockResolvedValue(existingEmployee);
+      mockRepository.findOne.mockResolvedValue(employeeDto);
       await service.update(id, updateEmployeeDto);
       expect(mockRepository.update).toHaveBeenCalledWith(id, updateEmployeeDto);
+      const result = await service.findOne(id);
+      expect(result).toEqual({ ...updateEmployeeDto, ...employeeDto });
     });
   });
 
