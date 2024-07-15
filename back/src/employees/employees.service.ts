@@ -20,15 +20,16 @@ export class EmployeesService {
     return this.employeesRepository.save(employee);
   }
 
-  findAll(page: number = 1, limit: number = 10) {
-    const skip = (page - 1) * limit;
-    this.logger.log(`Retrieving employees from ${skip + 1} to ${skip + limit}`);
+  async findAll(page: number = 1, limit: number = 10) {
+    const [items, total] = await Promise.all([
+      this.employeesRepository.find({
+        skip: (page - 1) * limit,
+        take: limit,
+      }),
+      this.employeesRepository.count(),
+    ]);
 
-    return this.employeesRepository.find({
-      relations: ['department'],
-      skip,
-      take: limit,
-    });
+    return { items, total };
   }
 
   async findOne(id: number) {
