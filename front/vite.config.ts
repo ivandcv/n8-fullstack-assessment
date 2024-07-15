@@ -12,6 +12,14 @@ export default defineConfig({
     port: 8080,
     strictPort: true,
     host: true,
-    origin: "http://0.0.0.0:8080",
+    origin: "http://127.0.0.1:8080",
    },
+   resolve: {
+    alias: {
+      "@contexts": "/src/contexts",
+      "@components": "/src/components",
+      "@lib": "/src/lib",
+      "@hooks": "/src/hooks",
+    },
+   }
 })
