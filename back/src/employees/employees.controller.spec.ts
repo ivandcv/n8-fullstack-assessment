@@ -88,9 +88,7 @@ describe('EmployeesController', () => {
       expect(await controller.findOne('1')).toEqual(mockEmployees[0]);
       expect(mockService.findOne).toHaveBeenCalledWith(1);
     });
-  });
 
-  describe('findOne', () => {
     it('should throw NotFoundException when employee not found', async () => {
       const id = '999';
       mockService.findOne.mockRejectedValue(
