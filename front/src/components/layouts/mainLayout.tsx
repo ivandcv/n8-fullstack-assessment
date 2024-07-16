@@ -10,7 +10,7 @@ export const MainLayout: React.FC = () => {
 
   return (
     <>
-      <GlobalStyles styles={{ body: { backgroundColor: '#fafafa' } }} />
+      <GlobalStyles styles={{ body: { backgroundColor: 'rgb(15, 18, 20)' } }} />
 
       <Navbar />
       <Box pt={8} maxHeight="100vh" overflow="auto" ref={mainScrollElementRef}>
