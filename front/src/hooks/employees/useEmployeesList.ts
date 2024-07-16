@@ -16,7 +16,7 @@ export function useEmployeeList(pageSize = 20): EmployeeListResult {
     fetching: false,
     hasMore: true,
     currentPage: 0,
-    employees: { data: [], totalCount: -1 },
+    employees: { items: [], total: -1 },
   });
 
   const fetchNextPage = async () => {
@@ -26,12 +26,12 @@ export function useEmployeeList(pageSize = 20): EmployeeListResult {
       setState((s) => ({ ...s, fetching: true }));
 
       const resp = await employeesClient.list(nextPage, pageSize);
-      const newEmployees = [...state.employees.data, ...resp.data];
+      const newEmployees = [...state.employees.items, ...resp.items];
 
       setState({
         fetching: false,
-        hasMore: resp.totalCount > newEmployees.length,
-        employees: { data: newEmployees, totalCount: resp.totalCount },
+        hasMore: resp.total > newEmployees.length,
+        employees: { items: newEmployees, total: resp.total },
         currentPage: nextPage,
       });
     }
