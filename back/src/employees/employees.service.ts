@@ -25,6 +25,7 @@ export class EmployeesService {
       this.employeesRepository.find({
         skip: (page - 1) * limit,
         take: limit,
+        relations: ['department'],
       }),
       this.employeesRepository.count(),
     ]);
