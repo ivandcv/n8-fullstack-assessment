@@ -1,4 +1,10 @@
-import { Typography, CardContent, CardActions, Button } from '@mui/material';
+import {
+  Typography,
+  CardContent,
+  CardActions,
+  Button,
+  Box,
+} from '@mui/material';
 
 import { Card } from '@components/atoms';
 import { IEmployee } from '../../models';
@@ -9,28 +15,39 @@ export interface IEmployeeCardProps {
 }
 
 export const EmployeeCard: React.FC<IEmployeeCardProps> = ({
-  employee: { firstName, lastName, hireDate, department, phone, address },
+  employee: { firstName, lastName, hireDate, department },
 }) => {
   return (
     <Card>
       <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          {`${firstName} ${lastName}`}
+        <Box display="block">
+          <Typography gutterBottom variant="h5" component="span">
+            {`${firstName} ${lastName}`}
+          </Typography>
+          <Typography
+            variant="body1"
+            color="text.secondary"
+            component="span"
+            ml="10px"
+          >{`(${department.name})`}</Typography>
+        </Box>
+        <Typography
+          variant="body1"
+          fontWeight="bold"
+          color="text.secondary"
+          mt="25px"
+        >
+          Hire Date
         </Typography>
-        <Typography variant="h5" component="div">
+        <Typography variant="body2" color="text.secondary">
           {`${getHireDate(hireDate)} (${getTimeWorked(hireDate)})`}
         </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {department}
-        </Typography>
-        <Typography variant="body2">
-          {phone}
-          <br />
-          {address}
-        </Typography>
       </CardContent>
-      <CardActions>
-        <Button size="small">Learn More</Button>
+      <CardActions sx={{ justifyContent: 'flex-end' }}>
+        <Button size="small" color="error">
+          Delete
+        </Button>
+        <Button size="small">View Details</Button>
       </CardActions>
     </Card>
   );
