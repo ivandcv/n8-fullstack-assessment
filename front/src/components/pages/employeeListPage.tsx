@@ -33,7 +33,9 @@ export const EmployeeListPage: React.FC = () => {
         loadMore={goNextPage}
         loading={fetching}
         ListContainer={ListContainer}
-        renderItem={(emp: IEmployee) => <EmployeeCard key={emp.id} employee={emp} />}
+        renderItem={(emp: IEmployee) => (
+          <EmployeeCard key={emp.id} employee={emp} />
+        )}
         scrollProps={{ getScrollParent: () => mainScrollElementRef.current }}
       />
 
@@ -44,13 +46,26 @@ export const EmployeeListPage: React.FC = () => {
           alignItems="center"
           justifyContent="end"
           pl={8}
+          flexGrow={1}
         >
           {fetching && <LinearProgress sx={{ width: '100%' }} />}
           {!fetching && (
-            <Typography variant="caption">
-              Displaying {employees.items.length} out of {employees.total}{' '}
-              total employees
-            </Typography>
+            <>
+              <Typography
+                variant="caption"
+                style={{ color: 'rgb(182, 190, 201)' }}
+                display={{ xs: 'none', md: 'block' }}
+              >
+                Displaying {employees.items.length} out of {employees.total}
+              </Typography>
+              <Typography
+                variant="caption"
+                style={{ color: 'rgb(182, 190, 201)' }}
+                display={{ xs: 'block', md: 'none' }}
+              >
+                {employees.items.length}/{employees.total}
+              </Typography>
+            </>
           )}
         </Box>,
       )}

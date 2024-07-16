@@ -1,7 +1,9 @@
-import { Box, styled } from '@mui/material';
+import { Card as MuiCard } from '@mui/material';
 
-export const Card = styled(Box)(() => ({
-  position: 'relative',
-  background: '#FFF',
-  borderRadius: 8,
-}));
+export interface ICardProps {
+  children: React.ReactNode;
+}
+
+export const Card: React.FC<ICardProps> = ({ children }) => {
+  return <MuiCard sx={{ minWidth: 275 }}>{children}</MuiCard>;
+};
