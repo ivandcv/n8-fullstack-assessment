@@ -13,7 +13,11 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
 
-const muiTheme = createTheme();
+const muiTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
 
 root.render(
   <React.StrictMode>
