@@ -43,7 +43,7 @@ export const Navbar: React.FC = () => {
   };
 
   return (
-    <AppBar position="fixed">
+    <AppBar position="fixed" style={{ zIndex: '1' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
@@ -101,7 +101,13 @@ export const Navbar: React.FC = () => {
               ))}
             </Menu>
           </Box>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, marginLeft: '10px' }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: 'none', md: 'flex' },
+              marginLeft: '10px',
+            }}
+          >
             {pages.map((page) => (
               <Button
                 key={page.id}

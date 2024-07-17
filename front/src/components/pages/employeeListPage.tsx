@@ -6,6 +6,7 @@ import {
   CreateEmployeeModal,
   DeleteEmployeeModal,
   EmployeeCard,
+  Alert,
 } from '@components/molecules';
 import { InfiniteScrollList } from '@components/organisms';
 import { useEmployeeList } from '@hooks/employees/useEmployeesList';
@@ -28,18 +29,37 @@ const ListContainer: React.FC<{ children: React.ReactNode }> = ({
 );
 
 export const EmployeeListPage: React.FC = () => {
-  const [{ employees, hasMore, fetching }, goNextPage, deleteEmployee] = useEmployeeList();
+  const [{ employees, hasMore, fetching }, goNextPage, deleteEmployee] =
+    useEmployeeList();
   const [currentEmployeeId, setCurrentEmployeeId] = useState(-1);
   const [openCreate, setOpenCreate] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
+  const [customAlert, setCustomAlert] = useState({
+    show: false,
+    message: '',
+    error: false,
+  });
 
   const { navbarInteractivePortal, mainScrollElementRef } = useUIContext();
 
   const handleDelete = async () => {
     await employeesClient.delete(currentEmployeeId.toString());
     deleteEmployee(currentEmployeeId);
-    alert(`Deleted employee with id: ${currentEmployeeId}`);
+    setCustomAlert({
+      show: true,
+      message: `Deleted employee ID ${currentEmployeeId}`,
+      error: true,
+    });
     setOpenDelete(false);
+  };
+
+  const handleCreate = () => {
+    setCustomAlert({
+      show: true,
+      message: 'Created employee successfully',
+      error: false,
+    });
+    setOpenCreate(false);
   };
 
   return (
@@ -56,9 +76,7 @@ export const EmployeeListPage: React.FC = () => {
         </Button>
       </Box>
       {employees.items.length === 0 ? (
-        <Typography variant="h4">
-          No Employees Found
-        </Typography>
+        <Typography variant="h4">No Employees Found</Typography>
       ) : (
         <InfiniteScrollList<IEmployee>
           items={employees.items}
@@ -76,7 +94,7 @@ export const EmployeeListPage: React.FC = () => {
           )}
           scrollProps={{ getScrollParent: () => mainScrollElementRef.current }}
         />
-        )}
+      )}
 
       {navbarInteractivePortal(
         <Box
@@ -111,11 +129,18 @@ export const EmployeeListPage: React.FC = () => {
       <CreateEmployeeModal
         open={openCreate}
         handleClose={() => setOpenCreate(false)}
+        handleAlert={handleCreate}
       />
       <DeleteEmployeeModal
         open={openDelete}
         handleClose={() => setOpenDelete(false)}
         handleDelete={handleDelete}
+      />
+      <Alert
+        show={customAlert.show}
+        message={customAlert.message}
+        error={customAlert.error}
+        setShow={(e: boolean) => setCustomAlert({ ...customAlert, show: e })}
       />
     </Box>
   );

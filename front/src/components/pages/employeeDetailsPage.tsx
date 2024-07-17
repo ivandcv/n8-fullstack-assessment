@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -11,11 +12,11 @@ import {
 } from '@mui/material';
 import { useEmployeeDetails } from '@hooks/employees';
 import { useDepartmentList } from '@hooks/departments';
-import { useEffect, useState } from 'react';
-import { getHireDate, getTimeWorked } from '../../utils';
 import { useLocation } from 'react-router-dom';
+import { getHireDate, getTimeWorked } from '../../utils';
 import { employeesClient } from '@lib/employeesClient';
 import { IDepartment } from 'src/models';
+import { Alert } from '@components/molecules';
 
 export const EmployeeDetailsPage: React.FC = () => {
   const location = useLocation();
@@ -40,6 +41,11 @@ export const EmployeeDetailsPage: React.FC = () => {
   const [currentDepartment, setCurrentDepartment] = useState(
     department.id.toString(),
   );
+  const [customAlert, setCustomAlert] = useState({
+    show: false,
+    message: '',
+    error: false,
+  });
 
   useEffect(() => {
     fetchEmployee(location.pathname.split('/').pop() as string);
@@ -63,8 +69,11 @@ export const EmployeeDetailsPage: React.FC = () => {
       (d) => d.id === parseInt(currentDepartment),
     ) || { id: 0, name: '' };
     setDepartment(newDepartment);
-    // TODO show success message
-    alert('Employee updated successfully');
+    setCustomAlert({
+      show: true,
+      message: `Department updated successfully`,
+      error: false,
+    });
   };
 
   const handleActiveChange = async () => {
@@ -72,9 +81,13 @@ export const EmployeeDetailsPage: React.FC = () => {
       id: employeeId,
       active: !active,
     });
-    alert(`Employee ${active ? 'deactivated' : 'activated'} successfully`);
+    setCustomAlert({
+      show: true,
+      message: `Employee ${active ? 'Deactivated' : 'Activated'}`,
+      error: active,
+    });
     setActive(!active);
-  }
+  };
 
   return (
     <Box p={4}>
@@ -190,7 +203,7 @@ export const EmployeeDetailsPage: React.FC = () => {
           </Button>
           <Button
             variant="contained"
-            color="success"
+            color="info"
             disabled={currentDepartment == department.id.toString()}
             onClick={() => handleUpdate()}
             style={{ marginLeft: '10px' }}
@@ -199,6 +212,12 @@ export const EmployeeDetailsPage: React.FC = () => {
           </Button>
         </Grid>
       </Grid>
+      <Alert
+        show={customAlert.show}
+        message={customAlert.message}
+        error={customAlert.error}
+        setShow={(e: boolean) => setCustomAlert({ ...customAlert, show: e })}
+      />
     </Box>
   );
 };

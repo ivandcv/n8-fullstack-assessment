@@ -21,6 +21,7 @@ import { employeesClient } from '@lib/employeesClient';
 export interface ICreateEmployeeModalProps {
   open: boolean;
   handleClose: () => void;
+  handleAlert: () => void;
 }
 
 const style = {
@@ -38,6 +39,7 @@ const style = {
 export const CreateEmployeeModal: React.FC<ICreateEmployeeModalProps> = ({
   open,
   handleClose,
+  handleAlert,
 }) => {
   const [{ departments }, fetchDepartments] = useDepartmentList();
   const [formData, setFormData] = useState({
@@ -57,9 +59,7 @@ export const CreateEmployeeModal: React.FC<ICreateEmployeeModalProps> = ({
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await employeesClient.create(formData);
-    // TODO show success message
-    alert('Employee created successfully');
-    handleClose();
+    handleAlert();
   };
 
   const handleTextInputChange = (
