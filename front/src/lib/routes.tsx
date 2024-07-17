@@ -12,4 +12,8 @@ export const routeDefinitions: Record<string, IRouteInfo> = {
     id: 'employee',
     title: 'Employee Details',
   },
+  departmentsList: {
+    id: 'department',
+    title: 'Departments List',
+  },
 };

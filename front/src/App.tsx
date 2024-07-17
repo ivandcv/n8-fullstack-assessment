@@ -36,6 +36,17 @@ const appRouter = createBrowserRouter([
           },
         ],
       },
+      {
+        path: '/departments',
+        element: <Outlet />,
+        children: [
+          {
+            path: '/departments',
+            element: <h2>Departments List not yet implemented</h2>,
+            id: routeDefinitions.departmentsList.id,
+          },
+        ]
+      }
     ],
   },
 ]);
