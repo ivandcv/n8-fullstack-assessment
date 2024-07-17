@@ -9,7 +9,7 @@ export const EmployeeDetailsPage: React.FC = () => {
   const location = useLocation();
   const [
     {
-      employee: { firstName, lastName, hireDate, department, phone, address },
+      employee: { id: employeeId, firstName, lastName, hireDate, department, phone, address },
     },
     fetchEmployee,
   ] = useEmployeeDetails();
@@ -37,6 +37,21 @@ export const EmployeeDetailsPage: React.FC = () => {
         </Typography>
       </Box>
       <Grid container display="flex" gap="1rem" mt={5}>
+        <Grid item xs={12}>
+          <Grid item xs={12} display="flex" justifyContent="space-between">
+            <Typography
+              variant="h6"
+              fontWeight="bold"
+              color="text.secondary"
+            >
+              Employee ID:
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              {employeeId}
+            </Typography>
+          </Grid>
+          <Divider/>
+        </Grid>
         <Grid item xs={12}>
           <Grid item xs={12} display="flex" justifyContent="space-between">
             <Typography
