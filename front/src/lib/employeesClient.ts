@@ -10,6 +10,14 @@ class EmployeesClient {
 
     return res.json();
   }
+
+  async findById(id = '0'): Promise<IEmployee> {
+    const res = await fetch(
+      `${this.apiUrl}/${id}`,
+    );
+
+    return res.json();
+  }
 }
 
 export const employeesClient = new EmployeesClient();

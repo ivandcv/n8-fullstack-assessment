@@ -8,7 +8,7 @@ import {
 import { UIProvider } from '@contexts/uiContext';
 import { routeDefinitions } from '@lib/routes';
 import { MainLayout } from '@components/layouts';
-import { EmployeeListPage } from '@components/pages';
+import { EmployeeDetailsPage, EmployeeListPage } from '@components/pages';
 
 
 const appRouter = createBrowserRouter([
@@ -31,7 +31,7 @@ const appRouter = createBrowserRouter([
           },
           {
             path: '/employees/:id',
-            element: <div>Not implemented</div>,
+            element: <EmployeeDetailsPage />,
             id: routeDefinitions.employeeDetails.id,
           },
         ],

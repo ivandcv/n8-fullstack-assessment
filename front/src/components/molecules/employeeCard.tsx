@@ -60,7 +60,7 @@ export const EmployeeCard: React.FC<IEmployeeCardProps> = ({
         <Button size="small" color="error" onClick={() => handleDelete(id)}>
           Delete
         </Button>
-        <Button size="small" onClick={() => navigate(`employees/${id}`)}>View Details</Button>
+        <Button size="small" onClick={() => navigate(`${id}`)}>View Details</Button>
       </CardActions>
     </Card>
   );
