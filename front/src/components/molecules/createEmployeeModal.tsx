@@ -101,6 +101,7 @@ export const CreateEmployeeModal: React.FC<ICreateEmployeeModalProps> = ({
                   fullWidth
                   label="First Name"
                   name="firstName"
+                  required
                   value={formData.firstName}
                   onChange={handleTextInputChange}
                 />
@@ -111,6 +112,7 @@ export const CreateEmployeeModal: React.FC<ICreateEmployeeModalProps> = ({
                     fullWidth
                     label="Last Name"
                     name="lastName"
+                    required
                     value={formData.lastName}
                     onChange={handleTextInputChange}
                   />
@@ -135,6 +137,7 @@ export const CreateEmployeeModal: React.FC<ICreateEmployeeModalProps> = ({
                   <InputLabel>Department</InputLabel>
                   <Select
                     name="department"
+                    required
                     value={formData.department.toString()}
                     onChange={handleSelectChange}
                   >
@@ -152,6 +155,7 @@ export const CreateEmployeeModal: React.FC<ICreateEmployeeModalProps> = ({
                     fullWidth
                     label="Phone"
                     name="phone"
+                    required
                     value={formData.phone}
                     onChange={handleTextInputChange}
                   />
@@ -163,6 +167,7 @@ export const CreateEmployeeModal: React.FC<ICreateEmployeeModalProps> = ({
                     fullWidth
                     label="Address"
                     name="address"
+                    required
                     value={formData.address}
                     onChange={handleTextInputChange}
                   />
