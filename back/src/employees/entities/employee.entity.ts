@@ -30,4 +30,7 @@ export class Employee {
 
   @Column()
   address: string;
+
+  @Column({ default: true })
+  active: boolean;
 }
