@@ -21,7 +21,7 @@ const style = {
 export const DeleteEmployeeModal: React.FC<IDeleteEmployeeModalProps> = ({
   open,
   handleClose,
-  handleDelete,
+  handleDelete
 }) => {
   return (
     <Modal open={open} onClose={handleClose}>

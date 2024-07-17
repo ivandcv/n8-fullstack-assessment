@@ -11,6 +11,7 @@ import { InfiniteScrollList } from '@components/organisms';
 import { useEmployeeList } from '@hooks/employees/useEmployeesList';
 import { useUIContext } from '@hooks/useUIContext';
 import { IEmployee } from '../../models';
+import { employeesClient } from '@lib/employeesClient';
 
 const ListContainer: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -27,16 +28,17 @@ const ListContainer: React.FC<{ children: React.ReactNode }> = ({
 );
 
 export const EmployeeListPage: React.FC = () => {
-  const [{ employees, hasMore, fetching }, goNextPage] = useEmployeeList();
-  const [currentEmployee, setCurrentEmployee] = useState(-1);
+  const [{ employees, hasMore, fetching }, goNextPage, deleteEmployee] = useEmployeeList();
+  const [currentEmployeeId, setCurrentEmployeeId] = useState(-1);
   const [openCreate, setOpenCreate] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
 
   const { navbarInteractivePortal, mainScrollElementRef } = useUIContext();
 
-  const deleteEmployee = () => {
-    // Delete employee
-    console.log(`Deleting employee with id: ${currentEmployee}`);
+  const handleDelete = async () => {
+    await employeesClient.delete(currentEmployeeId.toString());
+    deleteEmployee(currentEmployeeId);
+    alert(`Deleted employee with id: ${currentEmployeeId}`);
     setOpenDelete(false);
   };
 
@@ -64,7 +66,7 @@ export const EmployeeListPage: React.FC = () => {
             key={emp.id}
             employee={emp}
             setOpenDeleteModal={setOpenDelete}
-            setCurrentEmployee={setCurrentEmployee}
+            setCurrentEmployee={setCurrentEmployeeId}
           />
         )}
         scrollProps={{ getScrollParent: () => mainScrollElementRef.current }}
@@ -107,7 +109,7 @@ export const EmployeeListPage: React.FC = () => {
       <DeleteEmployeeModal
         open={openDelete}
         handleClose={() => setOpenDelete(false)}
-        handleDelete={() => deleteEmployee()}
+        handleDelete={handleDelete}
       />
     </Box>
   );

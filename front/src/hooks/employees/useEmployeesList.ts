@@ -9,7 +9,11 @@ type EmployeeListState = {
   currentPage: number;
 };
 
-export type EmployeeListResult = [EmployeeListState, () => void];
+export type EmployeeListResult = [
+  EmployeeListState,
+  () => void,
+  (id: number) => void,
+];
 
 export function useEmployeeList(pageSize = 20): EmployeeListResult {
   const [state, setState] = useState<EmployeeListState>({
@@ -37,9 +41,20 @@ export function useEmployeeList(pageSize = 20): EmployeeListResult {
     }
   };
 
+  const deleteEmployee = (id: number) => {
+    const newEmployees = state.employees.items.filter((e) => e.id !== id);
+    setState({
+      ...state,
+      employees: {
+        total: state.employees.total - 1,
+        items: newEmployees,
+      },
+    });
+  };
+
   useEffect(() => {
     fetchNextPage();
   }, []);
 
-  return [state, fetchNextPage];
+  return [state, fetchNextPage, deleteEmployee];
 }
