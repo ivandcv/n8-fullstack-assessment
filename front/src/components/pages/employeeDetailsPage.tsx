@@ -60,7 +60,7 @@ export const EmployeeDetailsPage: React.FC = () => {
       (d) => d.id === parseInt(currentDepartment),
     ) || { id: 0, name: '' };
     setDepartment(newDepartment);
-    // todo show success message
+    // TODO show success message
     alert('Employee updated successfully');
   };
 

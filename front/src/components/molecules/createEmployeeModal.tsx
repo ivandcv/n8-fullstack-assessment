@@ -57,7 +57,7 @@ export const CreateEmployeeModal: React.FC<ICreateEmployeeModalProps> = ({
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await employeesClient.create(formData);
-    // todo show success message
+    // TODO show success message
     alert('Employee created successfully');
     handleClose();
   };

@@ -2,6 +2,7 @@ import { ListResponse, IEmployee, ICreateEmployee } from '../models';
 
 // TODO fix issue with requests being called multiple times
 // Possibly caused by multiple renders. EG. useEffect being called multiple times
+// TODO handle errors
 class EmployeesClient {
   private apiUrl = 'http://localhost:3001/employees';
 
@@ -39,6 +40,14 @@ class EmployeesClient {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(employee),
+    });
+
+    return res.json();
+  }
+
+  async delete(id: string): Promise<IEmployee> {
+    const res = await fetch(`${this.apiUrl}/${id}`, {
+      method: 'DELETE',
     });
 
     return res.json();
