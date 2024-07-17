@@ -1,12 +1,16 @@
 import { employeesClient } from '@lib/employeesClient';
 import { useState } from 'react';
-import { IEmployee } from '../../models';
+import { IDepartment, IEmployee } from '../../models';
 
 type EmployeeDetailsState = {
   employee: IEmployee;
 };
 
-export type EmployeeDetailsResult = [EmployeeDetailsState, (id: string) => void];
+export type EmployeeDetailsResult = [
+  EmployeeDetailsState,
+  (id: string) => void,
+  (newDepartment: IDepartment) => void,
+];
 
 export function useEmployeeDetails(): EmployeeDetailsResult {
   const [state, setState] = useState<EmployeeDetailsState>({
@@ -15,7 +19,7 @@ export function useEmployeeDetails(): EmployeeDetailsResult {
       firstName: '',
       lastName: '',
       hireDate: new Date(),
-      department: {id: 0, name: ''},
+      department: { id: 0, name: '' },
       phone: '',
       address: '',
     },
@@ -24,8 +28,12 @@ export function useEmployeeDetails(): EmployeeDetailsResult {
   const fetchEmployee = async (id: string) => {
     const resp = await employeesClient.findById(id);
 
-    setState({employee: resp});
+    setState({ employee: resp });
   };
 
-  return [state, fetchEmployee];
+  const setDepartment = async (newDepartment: IDepartment) => {
+    setState({ employee: { ...state.employee, department: newDepartment } });
+  };
+
+  return [state, fetchEmployee, setDepartment];
 }

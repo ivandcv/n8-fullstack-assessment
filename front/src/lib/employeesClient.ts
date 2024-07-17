@@ -1,5 +1,7 @@
 import { ListResponse, IEmployee, ICreateEmployee } from '../models';
 
+// TODO fix issue with requests being called multiple times
+// Possibly caused by multiple renders. EG. useEffect being called multiple times
 class EmployeesClient {
   private apiUrl = 'http://localhost:3001/employees';
 
@@ -12,23 +14,32 @@ class EmployeesClient {
   }
 
   async findById(id = '0'): Promise<IEmployee> {
-    const res = await fetch(
-      `${this.apiUrl}/${id}`,
-    );
+    console.log('find by id was called');
+    const res = await fetch(`${this.apiUrl}/${id}`);
 
     return res.json();
   }
 
   async create(employee: ICreateEmployee): Promise<IEmployee> {
-    const res = await fetch(
-      `${this.apiUrl}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(employee),
-      }
-    );
+    const res = await fetch(`${this.apiUrl}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(employee),
+    });
+
+    return res.json();
+  }
+
+  async update(employee: ICreateEmployee): Promise<IEmployee> {
+    const res = await fetch(`${this.apiUrl}/${employee.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(employee),
+    });
 
     return res.json();
   }

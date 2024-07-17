@@ -11,10 +11,11 @@ export interface IEmployee {
 }
 
 export interface ICreateEmployee {
-  firstName: string;
-  lastName: string;
-  hireDate: Date;
-  department: string;
-  phone: string;
-  address: string;
+  id?: number;
+  firstName?: string;
+  lastName?: string;
+  hireDate?: Date;
+  department?: string;
+  phone?: string;
+  address?: string;
 }
