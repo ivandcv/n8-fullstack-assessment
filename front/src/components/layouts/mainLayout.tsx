@@ -14,7 +14,7 @@ export const MainLayout: React.FC = () => {
 
       <Navbar />
       <Box maxHeight="100vh" overflow="auto" ref={mainScrollElementRef}>
-        <Box component="main" maxWidth={960} margin="0 auto">
+        <Box component="main" maxWidth={960} margin="60px auto 10px">
           <Outlet />
         </Box>
       </Box>
