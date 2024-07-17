@@ -55,22 +55,28 @@ export const EmployeeListPage: React.FC = () => {
           Add Employee
         </Button>
       </Box>
-      <InfiniteScrollList<IEmployee>
-        items={employees.items}
-        hasMore={hasMore}
-        loadMore={goNextPage}
-        loading={fetching}
-        ListContainer={ListContainer}
-        renderItem={(emp: IEmployee) => (
-          <EmployeeCard
-            key={emp.id}
-            employee={emp}
-            setOpenDeleteModal={setOpenDelete}
-            setCurrentEmployee={setCurrentEmployeeId}
-          />
+      {employees.items.length === 0 ? (
+        <Typography variant="h4">
+          No Employees Found
+        </Typography>
+      ) : (
+        <InfiniteScrollList<IEmployee>
+          items={employees.items}
+          hasMore={hasMore}
+          loadMore={goNextPage}
+          loading={fetching}
+          ListContainer={ListContainer}
+          renderItem={(emp: IEmployee) => (
+            <EmployeeCard
+              key={emp.id}
+              employee={emp}
+              setOpenDeleteModal={setOpenDelete}
+              setCurrentEmployee={setCurrentEmployeeId}
+            />
+          )}
+          scrollProps={{ getScrollParent: () => mainScrollElementRef.current }}
+        />
         )}
-        scrollProps={{ getScrollParent: () => mainScrollElementRef.current }}
-      />
 
       {navbarInteractivePortal(
         <Box

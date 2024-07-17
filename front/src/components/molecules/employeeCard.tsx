@@ -28,7 +28,7 @@ export const EmployeeCard: React.FC<IEmployeeCardProps> = ({
   const handleDelete = (id: number) => {
     setCurrentEmployee(id);
     setOpenDeleteModal(true);
-  }
+  };
   return (
     <Card>
       <CardContent>
@@ -60,7 +60,9 @@ export const EmployeeCard: React.FC<IEmployeeCardProps> = ({
         <Button size="small" color="error" onClick={() => handleDelete(id)}>
           Delete
         </Button>
-        <Button size="small" onClick={() => navigate(`${id}`)}>View Details</Button>
+        <Button size="small" onClick={() => navigate(`${id}`)}>
+          View Details
+        </Button>
       </CardActions>
     </Card>
   );
