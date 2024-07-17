@@ -1,4 +1,4 @@
-import { ListResponse, IEmployee } from '../models';
+import { ListResponse, IEmployee, ICreateEmployee } from '../models';
 
 class EmployeesClient {
   private apiUrl = 'http://localhost:3001/employees';
@@ -14,6 +14,20 @@ class EmployeesClient {
   async findById(id = '0'): Promise<IEmployee> {
     const res = await fetch(
       `${this.apiUrl}/${id}`,
+    );
+
+    return res.json();
+  }
+
+  async create(employee: ICreateEmployee): Promise<IEmployee> {
+    const res = await fetch(
+      `${this.apiUrl}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(employee),
+      }
     );
 
     return res.json();

@@ -9,3 +9,12 @@ export interface IEmployee {
   phone: string;
   address: string;
 }
+
+export interface ICreateEmployee {
+  firstName: string;
+  lastName: string;
+  hireDate: Date;
+  department: string;
+  phone: string;
+  address: string;
+}

@@ -34,12 +34,6 @@ export const EmployeeListPage: React.FC = () => {
 
   const { navbarInteractivePortal, mainScrollElementRef } = useUIContext();
 
-  const createEmployee = () => {
-    // Create employee
-    console.log('Creating employee');
-    setOpenCreate(false);
-  };
-
   const deleteEmployee = () => {
     // Delete employee
     console.log(`Deleting employee with id: ${currentEmployee}`);
@@ -109,7 +103,6 @@ export const EmployeeListPage: React.FC = () => {
       <CreateEmployeeModal
         open={openCreate}
         handleClose={() => setOpenCreate(false)}
-        handleSubmit={() => createEmployee()}
       />
       <DeleteEmployeeModal
         open={openDelete}

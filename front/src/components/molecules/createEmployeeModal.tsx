@@ -1,4 +1,3 @@
-import { useDepartmentList } from '@hooks/departments';
 import {
   Modal,
   Box,
@@ -16,10 +15,12 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import { ChangeEvent, useEffect, useState } from 'react';
 
+import { useDepartmentList } from '@hooks/departments';
+import { employeesClient } from '@lib/employeesClient';
+
 export interface ICreateEmployeeModalProps {
   open: boolean;
   handleClose: () => void;
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
 const style = {
@@ -37,7 +38,6 @@ const style = {
 export const CreateEmployeeModal: React.FC<ICreateEmployeeModalProps> = ({
   open,
   handleClose,
-  handleSubmit,
 }) => {
   const [{ departments }, fetchDepartments] = useDepartmentList();
   const [formData, setFormData] = useState({
@@ -52,6 +52,15 @@ export const CreateEmployeeModal: React.FC<ICreateEmployeeModalProps> = ({
   useEffect(() => {
     fetchDepartments();
   }, []);
+
+  
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    await employeesClient.create(formData);
+    // todo show success message
+    alert('Employee created successfully');
+    handleClose();
+  };
 
   const handleTextInputChange = (
     event: ChangeEvent<HTMLInputElement | { name?: string; value: unknown }>,
@@ -126,11 +135,11 @@ export const CreateEmployeeModal: React.FC<ICreateEmployeeModalProps> = ({
                   <InputLabel>Department</InputLabel>
                   <Select
                     name="department"
-                    value={formData.department}
+                    value={formData.department.toString()}
                     onChange={handleSelectChange}
                   >
                     {departments.map((department) => (
-                      <MenuItem key={department.id} value={department.name}>
+                      <MenuItem key={department.id} value={department.id}>
                         {department.name}
                       </MenuItem>
                     ))}
