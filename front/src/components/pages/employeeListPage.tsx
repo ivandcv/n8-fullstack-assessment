@@ -1,6 +1,12 @@
-import { Box, LinearProgress, Typography } from '@mui/material';
+import { useState } from 'react';
+import { Box, Button, LinearProgress, Typography } from '@mui/material';
+import { Create } from '@mui/icons-material';
 
-import { EmployeeCard } from '@components/molecules';
+import {
+  CreateEmployeeModal,
+  DeleteEmployeeModal,
+  EmployeeCard,
+} from '@components/molecules';
 import { InfiniteScrollList } from '@components/organisms';
 import { useEmployeeList } from '@hooks/employees/useEmployeesList';
 import { useUIContext } from '@hooks/useUIContext';
@@ -22,11 +28,37 @@ const ListContainer: React.FC<{ children: React.ReactNode }> = ({
 
 export const EmployeeListPage: React.FC = () => {
   const [{ employees, hasMore, fetching }, goNextPage] = useEmployeeList();
+  const [currentEmployee, setCurrentEmployee] = useState(-1);
+  const [openCreate, setOpenCreate] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
 
   const { navbarInteractivePortal, mainScrollElementRef } = useUIContext();
 
+  const createEmployee = () => {
+    // Create employee
+    console.log('Creating employee');
+    setOpenCreate(false);
+  };
+
+  const deleteEmployee = () => {
+    // Delete employee
+    console.log(`Deleting employee with id: ${currentEmployee}`);
+    setOpenDelete(false);
+  };
+
   return (
-    <Box p={4} overflow="auto">
+    <Box p={4}>
+      <Box display="flex" justifyContent="flex-end" mb="20px">
+        <Button
+          size="large"
+          variant="contained"
+          endIcon={<Create />}
+          sx={{ lineHeight: 'unset' }}
+          onClick={() => setOpenCreate(true)}
+        >
+          Add Employee
+        </Button>
+      </Box>
       <InfiniteScrollList<IEmployee>
         items={employees.items}
         hasMore={hasMore}
@@ -34,7 +66,12 @@ export const EmployeeListPage: React.FC = () => {
         loading={fetching}
         ListContainer={ListContainer}
         renderItem={(emp: IEmployee) => (
-          <EmployeeCard key={emp.id} employee={emp} />
+          <EmployeeCard
+            key={emp.id}
+            employee={emp}
+            setOpenDeleteModal={setOpenDelete}
+            setCurrentEmployee={setCurrentEmployee}
+          />
         )}
         scrollProps={{ getScrollParent: () => mainScrollElementRef.current }}
       />
@@ -69,6 +106,16 @@ export const EmployeeListPage: React.FC = () => {
           )}
         </Box>,
       )}
+      <CreateEmployeeModal
+        open={openCreate}
+        handleClose={() => setOpenCreate(false)}
+        handleSubmit={() => createEmployee()}
+      />
+      <DeleteEmployeeModal
+        open={openDelete}
+        handleClose={() => setOpenDelete(false)}
+        handleDelete={() => deleteEmployee()}
+      />
     </Box>
   );
 };

@@ -13,7 +13,7 @@ export const MainLayout: React.FC = () => {
       <GlobalStyles styles={{ body: { backgroundColor: 'rgb(15, 18, 20)' } }} />
 
       <Navbar />
-      <Box pt={8} maxHeight="100vh" overflow="auto" ref={mainScrollElementRef}>
+      <Box maxHeight="100vh" overflow="auto" ref={mainScrollElementRef}>
         <Box component="main" maxWidth={960} margin="0 auto">
           <Outlet />
         </Box>
