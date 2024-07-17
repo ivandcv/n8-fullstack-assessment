@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Chip,
   Divider,
   Grid,
   MenuItem,
@@ -28,10 +29,12 @@ export const EmployeeDetailsPage: React.FC = () => {
         department,
         phone,
         address,
+        active,
       },
     },
     fetchEmployee,
     setDepartment,
+    setActive,
   ] = useEmployeeDetails();
   const [{ departments }, fetchDepartments] = useDepartmentList();
   const [currentDepartment, setCurrentDepartment] = useState(
@@ -64,11 +67,26 @@ export const EmployeeDetailsPage: React.FC = () => {
     alert('Employee updated successfully');
   };
 
+  const handleActiveChange = async () => {
+    await employeesClient.update({
+      id: employeeId,
+      active: !active,
+    });
+    alert(`Employee ${active ? 'deactivated' : 'activated'} successfully`);
+    setActive(!active);
+  }
+
   return (
     <Box p={4}>
       <Box display="block">
         <Typography gutterBottom variant="h5" component="span">
           {`${firstName} ${lastName}`}
+          <Chip
+            label={active ? 'Active' : 'Inactive'}
+            color={active ? 'success' : 'error'}
+            size="small"
+            style={{ marginLeft: '10px' }}
+          />
         </Typography>
       </Box>
       <Grid container display="flex" gap="1rem" mt={5}>
@@ -165,9 +183,17 @@ export const EmployeeDetailsPage: React.FC = () => {
         <Grid item xs={12} display="flex" justifyContent="flex-end">
           <Button
             variant="contained"
+            color={active ? 'error' : 'success'}
+            onClick={() => handleActiveChange()}
+          >
+            {active ? 'Deactivate' : 'Activate'}
+          </Button>
+          <Button
+            variant="contained"
             color="success"
             disabled={currentDepartment == department.id.toString()}
             onClick={() => handleUpdate()}
+            style={{ marginLeft: '10px' }}
           >
             Update
           </Button>

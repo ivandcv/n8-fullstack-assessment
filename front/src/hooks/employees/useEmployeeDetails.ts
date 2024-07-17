@@ -10,6 +10,7 @@ export type EmployeeDetailsResult = [
   EmployeeDetailsState,
   (id: string) => void,
   (newDepartment: IDepartment) => void,
+  (newActive: boolean) => void,
 ];
 
 export function useEmployeeDetails(): EmployeeDetailsResult {
@@ -22,6 +23,7 @@ export function useEmployeeDetails(): EmployeeDetailsResult {
       department: { id: 0, name: '' },
       phone: '',
       address: '',
+      active: true,
     },
   });
 
@@ -35,5 +37,9 @@ export function useEmployeeDetails(): EmployeeDetailsResult {
     setState({ employee: { ...state.employee, department: newDepartment } });
   };
 
-  return [state, fetchEmployee, setDepartment];
+  const setActive = async (newActive: boolean) => {
+    setState({ employee: { ...state.employee, active: newActive } });
+  };
+
+  return [state, fetchEmployee, setDepartment, setActive];
 }

@@ -8,6 +8,7 @@ export interface IEmployee {
   department: IDepartment;
   phone: string;
   address: string;
+  active: boolean;
 }
 
 export interface ICreateEmployee {
@@ -18,4 +19,5 @@ export interface ICreateEmployee {
   department?: string;
   phone?: string;
   address?: string;
+  active?: boolean;
 }
