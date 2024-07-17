@@ -101,7 +101,7 @@ export const Navbar: React.FC = () => {
               ))}
             </Menu>
           </Box>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, marginLeft: '10px' }}>
             {pages.map((page) => (
               <Button
                 key={page.id}

@@ -1,5 +1,6 @@
 import { Box, Button, Divider, Grid, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material';
 import { useEmployeeDetails } from '@hooks/employees';
+import { useDepartmentList } from '@hooks/departments';
 import { useEffect, useState } from 'react';
 import { getHireDate, getTimeWorked } from '../../utils';
 import { useLocation } from 'react-router-dom';
@@ -12,10 +13,12 @@ export const EmployeeDetailsPage: React.FC = () => {
     },
     fetchEmployee,
   ] = useEmployeeDetails();
+  const [{ departments }, fetchDepartments] = useDepartmentList();
   const [currentDepartment, setCurrentDepartment] = useState(department.name);
 
   useEffect(() => {
     fetchEmployee(location.pathname.split('/').pop() as string);
+    fetchDepartments();
   }, []);
   useEffect(() => {
     setCurrentDepartment(department.name);
@@ -97,13 +100,11 @@ export const EmployeeDetailsPage: React.FC = () => {
             onChange={handleSelectChange}
             size="small"
           >
-            <MenuItem value="adminstration">Adminstration</MenuItem>
-            <MenuItem value="game development">
-              Game Development
-            </MenuItem>
-            <MenuItem value="hardware development">
-              Hardware Development
-            </MenuItem>
+            {departments.map((department) => (
+              <MenuItem key={department.id} value={department.name}>
+                {department.name}
+              </MenuItem>
+            ))}
           </Select>
         </Grid>
         <Grid item xs={12} display="flex" justifyContent="flex-end">

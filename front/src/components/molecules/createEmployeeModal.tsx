@@ -1,3 +1,4 @@
+import { useDepartmentList } from '@hooks/departments';
 import {
   Modal,
   Box,
@@ -13,7 +14,7 @@ import {
 } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 export interface ICreateEmployeeModalProps {
   open: boolean;
@@ -38,6 +39,7 @@ export const CreateEmployeeModal: React.FC<ICreateEmployeeModalProps> = ({
   handleClose,
   handleSubmit,
 }) => {
+  const [{ departments }, fetchDepartments] = useDepartmentList();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -46,6 +48,10 @@ export const CreateEmployeeModal: React.FC<ICreateEmployeeModalProps> = ({
     phone: '',
     address: '',
   });
+
+  useEffect(() => {
+    fetchDepartments();
+  }, []);
 
   const handleTextInputChange = (
     event: ChangeEvent<HTMLInputElement | { name?: string; value: unknown }>,
@@ -123,13 +129,11 @@ export const CreateEmployeeModal: React.FC<ICreateEmployeeModalProps> = ({
                     value={formData.department}
                     onChange={handleSelectChange}
                   >
-                    <MenuItem value="adminstration">Adminstration</MenuItem>
-                    <MenuItem value="game development">
-                      Game Development
-                    </MenuItem>
-                    <MenuItem value="hardware development">
-                      Hardware Development
-                    </MenuItem>
+                    {departments.map((department) => (
+                      <MenuItem key={department.id} value={department.name}>
+                        {department.name}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </Grid>
