@@ -1,0 +1,312 @@
+{
+	"info": {
+		"_postman_id": "0e328a4b-d391-4974-b403-2e8f20e0fd43",
+		"name": "n8-fullstack-assessment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2492681"
+	},
+	"item": [
+		{
+			"name": "Department",
+			"item": [
+				{
+					"name": "List Departments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/departments",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"departments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Department by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/departments/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"departments",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Department",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"adminstration\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/departments/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"departments",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Department",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"hardware development\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/departments",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"departments"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Employees",
+			"item": [
+				{
+					"name": "List Employees",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/employees?page=1&limit=10",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"employees"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Employee",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const firstNames = ['John', 'Jane', 'Alice', 'Bob'];\r",
+									"const lastNames = ['Doe', 'Smith', 'Johnson', 'Williams'];\r",
+									"const randomFirstName = firstNames[Math.floor(Math.random() * firstNames.length)];\r",
+									"const randomLastName = lastNames[Math.floor(Math.random() * lastNames.length)];\r",
+									"const departmentIds = [1, 2, 3, 4];\r",
+									"\r",
+									"function getRandomDate(start, end) {\r",
+									"  const date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));\r",
+									"  return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD\r",
+									"}\r",
+									"\r",
+									"function getRandomPhone() {\r",
+									"  const digits = '0123456789';\r",
+									"  let phone = '';\r",
+									"  for (let i = 0; i < 10; i++) {\r",
+									"    phone += digits[Math.floor(Math.random() * digits.length)];\r",
+									"  }\r",
+									"  return phone;\r",
+									"}\r",
+									"\r",
+									"function getRandomAddress() {\r",
+									"  const streetNumbers = ['123', '456', '789', '101'];\r",
+									"  const streetNames = ['Main St', 'High St', 'Park Ave', 'Oak St'];\r",
+									"  const cities = ['Springfield', 'Rivertown', 'Lakeside', 'Hilltop'];\r",
+									"  const states = ['CA', 'NY', 'TX', 'FL'];\r",
+									"  const zipCodes = ['12345', '67890', '11223', '33445'];\r",
+									"\r",
+									"  const streetNumber = streetNumbers[Math.floor(Math.random() * streetNumbers.length)];\r",
+									"  const streetName = streetNames[Math.floor(Math.random() * streetNames.length)];\r",
+									"  const city = cities[Math.floor(Math.random() * cities.length)];\r",
+									"  const state = states[Math.floor(Math.random() * states.length)];\r",
+									"  const zipCode = zipCodes[Math.floor(Math.random() * zipCodes.length)];\r",
+									"\r",
+									"  return `${streetNumber} ${streetName}, ${city}, ${state} ${zipCode}`;\r",
+									"}\r",
+									"\r",
+									"pm.environment.set('firstName', randomFirstName);\r",
+									"pm.environment.set('lastName', randomLastName);\r",
+									"pm.environment.set('departmentId', departmentIds[Math.floor(Math.random() * departmentIds.length)]);\r",
+									"pm.environment.set('hireDate', getRandomDate(new Date(2010, 0, 1), new Date()));\r",
+									"pm.environment.set('phone', getRandomPhone());\r",
+									"pm.environment.set('address', getRandomAddress());\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"{{firstName}}\",\r\n    \"lastName\": \"{{lastName}}\",\r\n    \"hireDate\": \"{{hireDate}}\",\r\n    \"department\": \"{{departmentId}}\",\r\n    \"phone\": \"{{phone}}\",\r\n    \"address\": \"{{address}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/employees",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Employee",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"department\": \"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/employees/9",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"employees",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Employee by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/employees/9",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"employees",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Employee by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/employees/6",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"employees",
+								"6"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DepartmentHistory",
+			"item": [
+				{
+					"name": "Find Department History by Employee",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/department-history/employees/9",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"department-history",
+								"employees",
+								"9"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
