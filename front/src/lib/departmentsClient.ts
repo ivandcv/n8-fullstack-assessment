@@ -1,7 +1,7 @@
 import { IDepartment } from '../models';
 
 class DepartmentsClient {
-  private apiUrl = 'http://localhost:3001/departments';
+  private apiUrl = import.meta.env.VITE_API_URL + '/departments';
 
   async list(): Promise<IDepartment[]> {
     const res = await fetch(`${this.apiUrl}`);
