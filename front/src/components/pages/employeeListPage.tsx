@@ -76,7 +76,7 @@ export const EmployeeListPage: React.FC = () => {
         </Button>
       </Box>
       {employees.items.length === 0 ? (
-        <Typography variant="h4">No Employees Found</Typography>
+        <Typography variant="h4" display="flex" justifyContent="center">No Employees Found</Typography>
       ) : (
         <InfiniteScrollList<IEmployee>
           items={employees.items}
