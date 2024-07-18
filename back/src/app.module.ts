@@ -7,6 +7,8 @@ import { EmployeesModule } from './employees/employees.module';
 import { Employee } from './employees/entities/employee.entity';
 import { DepartmentsModule } from './departments/departments.module';
 import { Department } from './departments/entities/department.entity';
+import { DepartmentHistory } from './department-history/entities/department-history.entity';
+import { DepartmentHistoryModule } from './department-history/department-history.module';
 
 @Module({
   imports: [
@@ -28,12 +30,13 @@ import { Department } from './departments/entities/department.entity';
         ),
         synchronize: false,
         migrations: [__dirname + '/migration/*.ts'],
-        entities: [Employee, Department],
+        entities: [Employee, Department, DepartmentHistory],
       }),
       inject: [ConfigService],
     }),
     EmployeesModule,
     DepartmentsModule,
+    DepartmentHistoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

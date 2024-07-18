@@ -4,8 +4,10 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { Department } from '../../departments/entities/department.entity';
+import { DepartmentHistory } from '../../department-history/entities/department-history.entity';
 
 @Entity()
 export class Employee {
@@ -23,7 +25,7 @@ export class Employee {
 
   @ManyToOne(() => Department, (department) => department.employees)
   @JoinColumn({ name: 'department_id' })
-  department: string;
+  department: Department | string;
 
   @Column()
   phone: string;
@@ -33,4 +35,7 @@ export class Employee {
 
   @Column({ default: true })
   active: boolean;
+
+  @OneToMany(() => DepartmentHistory, (history) => history.employee)
+  departmentHistory: DepartmentHistory[];
 }

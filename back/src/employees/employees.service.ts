@@ -4,6 +4,8 @@ import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { Repository } from 'typeorm';
 import { Employee } from './entities/employee.entity';
+import { DepartmentHistoryService } from '../department-history/department-history.service';
+import { Department } from '../departments/entities/department.entity';
 
 @Injectable()
 export class EmployeesService {
@@ -12,6 +14,7 @@ export class EmployeesService {
   constructor(
     @InjectRepository(Employee)
     private employeesRepository: Repository<Employee>,
+    private readonly departmentHistoryService: DepartmentHistoryService,
   ) {}
 
   create(createEmployeeDto: CreateEmployeeDto) {
@@ -50,7 +53,23 @@ export class EmployeesService {
 
   async update(id: number, updateEmployeeDto: UpdateEmployeeDto) {
     this.logger.log(`Updating employee with ID ${id}`);
+
+    const employee = await this.findOne(id);
+    if (!employee) {
+      this.logger.log(`Employee with ID ${id} not found`);
+      throw new Error('Employee not found');
+    }
+    this.logger.log(`Found employee with ID ${id}`);
+    const department = employee.department as Department;
+    if (
+      updateEmployeeDto.department &&
+      department.id.toString() !== updateEmployeeDto.department
+    ) {
+      await this.departmentHistoryService.logChange(employee, department);
+    }
+
     await this.employeesRepository.update(id, updateEmployeeDto);
+
     return this.findOne(id);
   }
 

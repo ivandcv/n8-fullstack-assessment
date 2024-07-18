@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { Employee } from './src/employees/entities/employee.entity';
 import { Department } from './src/departments/entities/department.entity';
+import { DepartmentHistory } from './src/department-history/entities/department-history.entity';
 
 const configService = new ConfigService();
 
@@ -16,7 +17,7 @@ export const AppDataSource = new DataSource({
     'DATABASE_NAME',
     'n8_fullstack_assessment',
   ),
-  entities: [Employee, Department],
+  entities: [Employee, Department, DepartmentHistory],
   migrations: [__dirname + '/src/migration/*.ts'],
   namingStrategy: new SnakeNamingStrategy(),
 });

@@ -32,25 +32,6 @@ services:
       - /app/node_modules
     depends_on:
       - db
-  back-dev:
-    container_name: back-dev
-    command: npm run start:dev
-    build: back/
-    ports:
-      - "3001:3000"
-    environment:
-      DATABASE_HOST: db
-      DATABASE_PORT: 5432
-      DATABASE_USER: postgres
-      DATABASE_PASSWORD: postgres
-      DATABASE_NAME: n8_fullstack_assessment
-    volumes:
-      - ./back:/app
-      - /app/node_modules
-    depends_on:
-      - db
-    profiles:
-      - dev
 
   front:
     container_name: front
