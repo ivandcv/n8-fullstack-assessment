@@ -16,7 +16,7 @@ import { useLocation } from 'react-router-dom';
 import { getHireDate, getTimeWorked } from '../../utils';
 import { employeesClient } from '@lib/employeesClient';
 import { IDepartment } from 'src/models';
-import { Alert } from '@components/molecules';
+import { Alert, DepartmentHistoryTable } from '@components/molecules';
 
 export const EmployeeDetailsPage: React.FC = () => {
   const location = useLocation();
@@ -212,6 +212,10 @@ export const EmployeeDetailsPage: React.FC = () => {
           </Button>
         </Grid>
       </Grid>
+      <Typography variant="h6" mt={8} mb={3}>
+        Department History
+      </Typography>
+      <DepartmentHistoryTable employeeId={employeeId} />
       <Alert
         show={customAlert.show}
         message={customAlert.message}
