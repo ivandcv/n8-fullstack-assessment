@@ -10,7 +10,6 @@ import { routeDefinitions } from '@lib/routes';
 import { MainLayout } from '@components/layouts';
 import { EmployeeDetailsPage, EmployeeListPage } from '@components/pages';
 
-
 const appRouter = createBrowserRouter([
   {
     path: '/',
@@ -42,11 +41,15 @@ const appRouter = createBrowserRouter([
         children: [
           {
             path: '/departments',
-            element: <h2>Departments List not yet implemented</h2>,
+            element: (
+              <h2 style={{ marginTop: '100px', marginLeft: '20px' }}>
+                Departments List not implemented
+              </h2>
+            ),
             id: routeDefinitions.departmentsList.id,
           },
-        ]
-      }
+        ],
+      },
     ],
   },
 ]);

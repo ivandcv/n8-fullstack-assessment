@@ -29,6 +29,7 @@ export class EmployeesService {
         skip: (page - 1) * limit,
         take: limit,
         relations: ['department'],
+        order: { id: 'ASC' },
       }),
       this.employeesRepository.count(),
     ]);
