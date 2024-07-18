@@ -32,14 +32,26 @@ export function InfiniteScrollList<T>(props: IInfiniteScrollListProps<T>) {
   }
 
   return (
-    <InfiniteScroll
-      hasMore={hasMore}
-      loadMore={fetchMore}
-      useWindow={false}
-      threshold={10}
-      {...scrollProps}
-    >
-      <ListContainer>{items.map(renderItem)}</ListContainer>
-    </InfiniteScroll>
+    <>
+      <style>
+        {`
+          @media (max-width: 425px) {
+            .css-mbkma0 {
+              display: grid;
+              grid-template-columns: repeat(1, 1fr);
+            }
+          }
+        `}
+      </style>
+      <InfiniteScroll
+        hasMore={hasMore}
+        loadMore={fetchMore}
+        useWindow={false}
+        threshold={10}
+        {...scrollProps}
+      >
+        <ListContainer>{items.map(renderItem)}</ListContainer>
+      </InfiniteScroll>
+    </>
   );
 }
