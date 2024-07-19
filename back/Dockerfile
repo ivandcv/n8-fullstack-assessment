@@ -2,10 +2,9 @@ FROM node:lts-slim
 
 WORKDIR /app
 
-COPY package*.json .
-COPY package-lock.json .
+COPY package*.json package-lock.json .
 
-RUN npm ci --no-audit
+RUN npm install
 
 COPY . .
 
